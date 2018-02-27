@@ -1,0 +1,44 @@
+%求参考图像的epi图
+clc;
+clear;
+path_ref= 'E:\Database\ALL_REF\'; %参考图像文件路径
+
+ref_list=dir(path_ref);
+
+ for i=3:length(ref_list) %文件夹14个场景
+    %disp(i);
+    imgDir=dir([path_ref ref_list(i).name '/*.png']);
+ 
+    for j=1:720
+        disp(j);
+        for k1=1:length(imgDir)
+            img=rgb2gray(imread([path_ref ref_list(i).name '/' imgDir(k1).name]));
+           % imshow(img);
+             epi_img(k1,:)=img(j,:);
+             
+        end
+        
+        imshow(epi_img);
+        I=getimage(gcf);
+        imwrite(I,['E:\EPI\REF\ArtGallery2\',int2str(j),'.png']);
+    end
+    
+    
+%      for j=1:length(imgDir)   %文件中101张图
+%          %ref_img=ref_list(j).name;
+%          %disp(j);
+%          img=rgb2gray(imread([path_ref ref_list(i).name '/' imgDir(j).name]));
+%          
+%         [m,n]=size(img);
+%         for k=1:m   %每张图片尺寸
+%             
+%         end
+%         
+%         epi_img(j,:)=img(j,:);
+%         imshow(epi_img);
+%         
+%         I=getimage(gcf);
+%         imwrite(I,['E:\test\REF\',int2str(i-2),'.png']);
+%         %imwrite(I,'test.png');     
+%      end
+ end
