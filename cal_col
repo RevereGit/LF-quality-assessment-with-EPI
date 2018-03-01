@@ -1,0 +1,31 @@
+%计算相关系数
+clc; 
+clear;
+
+model = 'logistic_hamid';
+%test_mos=load('mos.txt');
+
+%pred_mos=load('psnr.txt');
+%pred_mos=load('ssim.txt');
+
+test_mos=load('mos_t.txt');
+X=load('psnr_1.txt');
+Y=load('psnr_2.txt');
+% Z=load('ssim_2.txt');
+pred_mos=A+B;
+
+
+%  [plcc mae rms srcc krcc] = IQA_eval(smos, sobj, model);
+srcc = IQAPerformance(pred_mos(:),test_mos(:),'s');
+krcc = corr(pred_mos(:),test_mos(:),'type','Kendall');
+cc = IQAPerformance(pred_mos(:),test_mos(:),'p');
+rmse = IQAPerformance(pred_mos(:),test_mos(:),'e');
+
+disp('plcc=');
+disp(cc);
+disp('srcc=');
+disp(srcc);
+disp('krcc=');
+disp(krcc);
+disp('rmse=');
+disp(rmse);
