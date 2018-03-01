@@ -1,0 +1,60 @@
+%数据库中参考与失真文件的遍历对比
+clc;
+clear;
+path_ref = 'E:\Database\ALL_REF\'; %参考图像文件路径
+path_dist = 'E:\Database\WorkShop\'; %各失真图像文件路径
+
+ref_list = dir(path_ref);  %dir函数返回文件夹中文件列表
+dist_list = dir(path_dist);
+
+for i=3:length(dist_list) %REF文件夹中14种参考场景
+    disp(i);
+    dist_path = strcat(path_dist,dist_list(i).name);%连接参考文件中遍历的子文件名 ArtGallery/ArtGallery_depthinterpoaltion_Skip1
+    dist_name = dist_list(i).name(1:8); 
+    dist_img_list = dir(dist_path);% 得到失真等级文件下的图片列表信息
+    
+    spec_path_ref = strcat(path_ref,dist_name,'\'); 
+    ref_img_list = dir(spec_path_ref);
+    
+    for j=3:length(dist_img_list)
+        
+        dist_full_path = strcat(dist_path,'\',dist_img_list(j).name);
+        dist_img = rgb2gray(imread(dist_full_path));
+        
+        ref_img_path = strcat(spec_path_ref, dist_img_list(j).name);%'\',
+        ref_img = rgb2gray(imread(ref_img_path));
+        result(j-2,1) = ssim(ref_img,dist_img);  % each img
+        
+    end
+%     [row,col] = find(result==Inf);
+%     for m=1:length(row)
+%         result(row(m),col(m)) =[];
+%     end
+    result(find(result==Inf))=[];
+    sun_file(i-2,1) = mean(result); % each sun file
+    
+    
+end
+
+%final_result = mean(sun_file);
+
+
+%     for j=3:26      %length(dist_list) %DIST文件夹中所有子文件
+%         disp(j-2)
+%         if dist_list(j).name(1:len) == name;
+%             %disp(j-2)
+%             spec_path_dist = strcat(path_dist,dist_list(j).name,'\');
+%             img_list = dir(spec_path_ref); %图片信息
+%             for m=3:length(img_list)
+%                 disp(m-2)
+%                 img_ref = strcat(spec_path_ref,img_list(m).name);
+%                 img_dist = strcat(spec_path_dist,img_list(m).name);
+%                 img_r = imread(img_ref);
+%                 img_d = imread(img_dist);
+%                 result(m-2) = psnr(img_r,img_d);
+%                 result_s(m-2) = ssim(img_r,img_d);
+%             end
+%             result(find(result==Inf)) = 34;
+%             result_mean(j-2) = mean(mean(result));
+%         end
+%     end
