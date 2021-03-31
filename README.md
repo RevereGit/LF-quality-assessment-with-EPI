@@ -1,6 +1,6 @@
 # LF-quality-assessment-with-EPI
 
-title: light field image quality assessment with local and global features by epipolar plane image
+Paper title: light field image quality assessment with local and global features by epipolar plane image
 
 step 1: get the epipolar plane images from light field image;
 
